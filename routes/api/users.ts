@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
+import * as passport from 'passport';
 import User from '../../models/User';
 
 const router = Router();
@@ -83,5 +84,14 @@ router.post('/login', async (req: Request, res: Response) => {
     return res.status(400).json({ msg: 'Password is incorrect' });
   }
 });
+
+router.get(
+  '/current',
+  passport.authenticate('jwt', { session: false }),
+  (req: Request, res: Response) => {
+    const { id, name, email } = req.user;
+    res.status(400).json({ id, name, email });
+  }
+);
 
 export { router };

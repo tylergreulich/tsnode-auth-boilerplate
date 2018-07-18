@@ -1,6 +1,7 @@
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import * as mongoose from 'mongoose';
+import * as passport from 'passport';
 
 import { router as UserRouter } from '../routes/api/users';
 
@@ -23,6 +24,8 @@ class Server {
 
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
+    this.app.use(passport.initialize());
+    require('../config/passport')(passport);
   }
 
   public routes(): void {
