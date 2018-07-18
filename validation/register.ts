@@ -1,5 +1,5 @@
 import * as Validator from 'validator';
-import { User } from '../models/User';
+import { UserInterface } from '../models/User';
 import { isEmpty } from './is-empty';
 
 export interface RegisterErrors {
@@ -9,7 +9,7 @@ export interface RegisterErrors {
   confirmPassword?: string;
 }
 
-export const validateRegister = (data: User) => {
+export const validateRegister = (data: UserInterface) => {
   let errors: RegisterErrors = {};
 
   data.username = !isEmpty(data.username) ? data.username : '';
