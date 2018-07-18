@@ -4,6 +4,7 @@ export interface User extends Document {
   username: string;
   email: string;
   password: string;
+  confirmPassword: string;
   date: Date;
 }
 
