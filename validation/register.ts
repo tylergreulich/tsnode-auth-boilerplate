@@ -1,16 +1,10 @@
 import * as Validator from 'validator';
-import { UserInterface } from '../models/User';
+import { IUser } from '../interfaces/user.interface';
+import { IRegisterErrors } from '../interfaces/registerErrors.interface';
 import { isEmpty } from './is-empty';
 
-export interface RegisterErrors {
-  username?: string;
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-}
-
-export const validateRegister = (data: UserInterface) => {
-  let errors: RegisterErrors = {};
+export const validateRegister = (data: IUser) => {
+  let errors: IRegisterErrors = {};
 
   data.username = !isEmpty(data.username) ? data.username : '';
   data.email = !isEmpty(data.email) ? data.email : '';
@@ -27,20 +21,20 @@ export const validateRegister = (data: UserInterface) => {
     errors.username = 'Name field is required';
   }
 
-  if (Validator.isEmpty(data.email)) {
-    errors.email = 'Email field is required';
-  }
-
   if (!Validator.isEmail(data.email)) {
     errors.email = 'Email is invalid';
   }
 
-  if (Validator.isEmpty(data.password)) {
-    errors.password = 'Password field is required';
+  if (Validator.isEmpty(data.email)) {
+    errors.email = 'Email field is required';
   }
 
   if (!Validator.isLength(data.password, { min: 6, max: 30 })) {
     errors.password = 'Password must be at least 6 characters';
+  }
+
+  if (Validator.isEmpty(data.password)) {
+    errors.password = 'Password field is required';
   }
 
   if (Validator.isEmpty(data.confirmPassword)) {

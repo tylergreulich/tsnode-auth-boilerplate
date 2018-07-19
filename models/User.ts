@@ -1,17 +1,15 @@
+import * as jwt from 'jsonwebtoken';
 import { Schema, Document, model } from 'mongoose';
-
-export interface UserInterface extends Document {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  date: Date;
-}
+import { UserInterface } from '../interfaces/user.interface';
+import { PayloadInterface } from '../interfaces/payload.interface';
+import { Response } from 'express';
 
 const UserSchema: Schema = new Schema({
   username: {
     type: String,
-    required: true
+    required: true,
+    min: 2,
+    max: 30
   },
   email: {
     type: String,
@@ -20,12 +18,28 @@ const UserSchema: Schema = new Schema({
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    min: 6,
+    max: 30
   },
   date: {
     type: Date,
     default: Date.now
   }
 });
+
+UserSchema.methods.generateAuthToken = (
+  payload: PayloadInterface,
+  res: Response
+) => {
+  const token = jwt.sign(
+    payload,
+    'secret',
+    { expiresIn: 3600 },
+    (err: Error, token: string) => {
+      res.status(200).json({ success: true, token: `Bearer ${token}` });
+    }
+  );
+};
 
 export default model<UserInterface>('User', UserSchema);
