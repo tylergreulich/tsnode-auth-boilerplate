@@ -1,7 +1,7 @@
 import * as jwt from 'jsonwebtoken';
 import { Schema, Document, model } from 'mongoose';
-import { UserInterface } from '../interfaces/user.interface';
-import { PayloadInterface } from '../interfaces/payload.interface';
+import { IUser } from '../interfaces/user.interface';
+import { IPayload } from '../interfaces/payload.interface';
 import { Response } from 'express';
 
 const UserSchema: Schema = new Schema({
@@ -28,10 +28,7 @@ const UserSchema: Schema = new Schema({
   }
 });
 
-UserSchema.methods.generateAuthToken = (
-  payload: PayloadInterface,
-  res: Response
-) => {
+UserSchema.methods.generateAuthToken = (payload: IPayload, res: Response) => {
   const token = jwt.sign(
     payload,
     'secret',
@@ -42,4 +39,4 @@ UserSchema.methods.generateAuthToken = (
   );
 };
 
-export default model<UserInterface>('User', UserSchema);
+export default model<IUser>('User', UserSchema);

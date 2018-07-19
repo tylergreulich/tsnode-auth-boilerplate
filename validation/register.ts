@@ -1,10 +1,10 @@
 import * as Validator from 'validator';
 import { IUser } from '../interfaces/user.interface';
-import { IRegisterErrors } from '../interfaces/registerErrors.interface';
+import { IAuthErrors } from '../interfaces/authErrors.interface';
 import { isEmpty } from './is-empty';
 
 export const validateRegister = (data: IUser) => {
-  let errors: IRegisterErrors = {};
+  let errors: IAuthErrors = {};
 
   data.username = !isEmpty(data.username) ? data.username : '';
   data.email = !isEmpty(data.email) ? data.email : '';

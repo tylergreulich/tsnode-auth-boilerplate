@@ -1,5 +1,6 @@
 import * as Validator from 'validator';
-import { UserInterface } from '../interfaces/user.interface';
+import { IUser } from '../interfaces/user.interface';
+import { IAuthErrors } from '../interfaces/authErrors.interface';
 import { isEmpty } from './is-empty';
 
 export interface RegisterErrors {
@@ -7,8 +8,8 @@ export interface RegisterErrors {
   password?: string;
 }
 
-export const validateLogin = (data: UserInterface) => {
-  let errors: RegisterErrors = {};
+export const validateLogin = (data: IUser) => {
+  let errors: IAuthErrors = {};
 
   data.email = !isEmpty(data.email) ? data.email : '';
   data.password = !isEmpty(data.password) ? data.password : '';
